@@ -7,7 +7,8 @@ Questo progetto mostra un'applicazione ASP.NET Core Web API 2.2 che intercetta a
   "reason":"ServerError",
   "type":"CourseListFetchException",
   "code":102,
-  "helpLink":"https://example.org/documentation/course-list-fetch-exception"}
+  "helpLink":"https://example.org/documentation/course-list-fetch-exception"
+}
 ```
 
 Tali informazioni verranno poi visualizzate nella pagina web come avvisi, grazie a [Noty](https://ned.im/noty/#/).
