@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>ErrorDemo</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/noty/3.1.4/noty.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <style>
+        .noty_body {
+            color: black;
+        }
+        .noty_body h2 {
+            font-size: 20px;
+            font-weight: bold;
+        }
+        .noty_body p {
+            margin-bottom: 0;
+        }
+        li {
+            padding: 4px 0;
+        }
+    </style>
+</head>
+<body>
+    <main class="container">
+        <h1>Demo errori WebAPI</h1>
+        <p><strong>Clicca più volte i bottoni qui sotto</strong>: due volte su tre appariranno degli errori (in rosso).<br>Gli errori sono visualizzati con <a href="https://ned.im/noty/#/" target="_blank">Noty</a>.</p>
+
+        <ul class="list-unstyled">
+            <li><button class="btn btn-primary" onclick="getCourseList()">Invia una richiesta a /courses</button></li>
+            <li><button class="btn btn-primary" onclick="getCourse(2)">Invia una richiesta a /courses/2</button></li>
+        </ul>
+    </main>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/noty/3.1.4/noty.min.js" type="text/javascript"></script>
+    <script>
+        function getCourseList() {
+            performRequest('/api/courses/');
+        }
+
+        function getCourse(id) {
+            performRequest('/api/courses/' + id);
+        }
+
+        function performRequest(url) {
+            fetch(url)
+            .then(response => {
+                if (response.ok) {
+                    response.text().then(text => {
+                        (new Noty({
+                            type: 'success',
+                            text: '<p>Risposta corretta del server:<br>' + text + '</p>',
+                            timeout: 5000
+                        })).show()
+                    });
+                } else {
+                    //Il server ha restituito un errore, lo visualizzo con Noty
+                    response.json().then(data => {
+                        (new Noty({
+                            type: 'error',
+                            text: '<p>Codice errore: ' + data.code + ' (' + data.type + ')' + '</p><h2>' + data.error + '</h2><a href="' + data.helpLink + '" target="_blank">Maggiori informazioni</a>',
+                            timeout: 5000
+                        })).show()
+                    });
+                }
+            })
+            .catch(reason => {
+                //Si è verificato un errore di connessione con il server, lo visualizzo con Noty
+
+            });
+        }
+    </script>
+</body>
+</html>
