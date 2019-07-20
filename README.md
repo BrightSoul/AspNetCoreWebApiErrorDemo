@@ -1,5 +1,15 @@
 # AspNetCoreWebApiErrorDemo
 Questo progetto mostra un'applicazione ASP.NET Core Web API 2.2 che intercetta a livello globale le eccezioni non gestite grazie all'`ExceptionHandlerMiddleware` e restituisce al client un oggetto formattato in JSON contenente informazioni utili.
+
+```
+{
+  "error":"Non è stato possibile ottenere l'elenco dei corsi, riprova più tardi",
+  "reason":"ServerError",
+  "type":"CourseListFetchException",
+  "code":102,
+  "helpLink":"https://example.org/documentation/course-list-fetch-exception"}
+```
+
 Tali informazioni verranno poi visualizzate nella pagina web come avvisi, grazie a [Noty](https://ned.im/noty/#/).
 
 ![ErrorDemo.png](ErrorDemo.png)
